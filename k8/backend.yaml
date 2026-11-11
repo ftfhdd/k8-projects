@@ -32,4 +32,4 @@ spec:
               name: mongosecrect
               key: mongo-password
         - name: MONGO_URI
-          value: mongodb://$(MONGO_INITDB_ROOT_USERNAME):$(MONGO_INITDB_ROOT_PASSWORD)@mongo-svc:27017
+          value: mongodb://$(MONGO_INITDB_ROOT_USERNAME):$(MONGO_INITDB_ROOT_PASSWORD)@mongo-svc:27017/?authSource=admin
