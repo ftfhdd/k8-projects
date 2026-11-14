@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: headlessdb-svc
+  namespace: my-ns
+spec:
+  clusterIp: None
+  selector:
+    app: mongo
+    ports:
+      - port: 27017
+        targetPort: 27017
+        
