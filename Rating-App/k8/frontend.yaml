@@ -15,6 +15,6 @@ spec:
     spec:
       containers:
       - name: frontend
-        image: satyasowmyagudela/rating-frontend:latest
+        image: satyasowmyagudela/rating-frontend:v1
         ports:
         - containerPort: 80
