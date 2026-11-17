@@ -3,25 +3,26 @@ kind: Ingress
 metadata:
   name: my-ingress
   namespace: my-ns
-  annotations:
-   kubernetes.io/ingress.class: "nginx"
 spec:
+  ingressClassName: traefik
   rules:
-  - host: myapp.local
-    http:
+  - http:
       paths:
-      - path: /
-        pathType: prefix
-        backend:
-          service:
-            name: front-svc
-            port:
-              number: 80
       - path: /api
-        pathType: prefix
+        pathType: Prefix
         backend:
           service:
             name: backend-service
             port:
               number: 5000
-
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: front-svc
+            port:
+              number: 80
+#removed  - host: myapp.local because iam using kodecloud and it does not have access to localhost,myapp.local,chng ingress
+#chng ingressClassname to treakfix because the ingress controller we have in kodekl is traefix 
+#kubectl get svc -n ingress-traefix -n my-ns and other kubectl get svc -A | grep -i traefik check ip 
+# 80:31234/TCP,443:32456/TCP  5-digit port number mapped to port 80 (for example, 31234
