@@ -1,0 +1,44 @@
+#When you want specific users (such as beta testers or mobile users) to hit the new version, use an Ingress controller like NGINX to inspect HTTP headers.
+#• Step 1: Create Separate Services
+#Create service-v1 pointing to version: v1 and service-v2 pointing to version: v2.
+#• Step 2: Configure Main and Canary Ingress Resources
+# main-ingress.yaml (Default traffic -> v1)
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: my-app-ingress
+spec:
+  rules:
+    - host: ://example.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: service-v1
+                port:
+                  number: 80
+---
+# ab-ingress.yaml (Header X-Region: beta -> v2)
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: my-app-ab-ingress
+metadata:
+  annotations:
+    nginx.ingress.kubernetes.io/canary: "true"
+    nginx.ingress.kubernetes.io/canary-by-header: "X-Beta-User"
+    nginx.ingress.kubernetes.io/canary-by-header-value: "true"
+spec:
+  rules:
+    - host: ://example.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: service-v2
+                port:
+                  number: 80

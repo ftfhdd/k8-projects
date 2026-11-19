@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-app-canary
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: my-app
+      track: canary
+  template:
+    metadata:
+      labels:
+        app: my-app # Shared label used by the Service
+        track: canary
+    spec:
+      containers:
+        - name: app
+          image: my-app:2.0
